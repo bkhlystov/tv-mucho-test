@@ -1,16 +1,15 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
+
 import App from './App';
 import router from './router';
 
 import VueLoading from 'vuex-loading'
 Vue.use(VueLoading);
 
-//Add bootstrap
-import BootstrapVue from 'bootstrap-vue'
-Vue.use(BootstrapVue);
-import 'bootstrap/dist/css/bootstrap.css'
-import 'bootstrap-vue/dist/bootstrap-vue.css'
+// Add Vee validate
+import VeeValidate from 'vee-validate';
+Vue.use(VeeValidate);
 
 //Add Vuex
 Vue.config.productionTip = false;

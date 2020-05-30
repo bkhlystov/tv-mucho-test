@@ -6,32 +6,31 @@ Vue.use(VueRouter);
 const routes = [
     {
         path: '/',
-        name: 'main',
-        component: () => import('./components/Main.vue'),
+        redirect: {
+            name: "login"
+        }
     },
     {
-        path: '/content',
-        name: 'content',
-        component: () => import('./components/Main.vue'),
+        path: "/login",
+        name: "login",
+        component: () => import('./views/login.vue'),
     },
-    {
-        path: '/other-links',
-        name: 'otherLinks',
-        component: () => import('./components/Main.vue'),
-    },
-    {
-        path: '/about-us',
-        name: 'aboutUs',
-        component: () => import('./components/Content.vue'),
-    },
-    {
-        path: '/contacts',
-        name: 'contacts',
-        component: () => import('./components/Content.vue'),
-    },
+
+    // {
+    //     path: '/',
+    //     name: 'main',
+    //     component: () => import('./components/Main.vue'),
+    // },
+    // {
+    //     path: '/content',
+    //     name: 'content',
+    //     component: () => import('./components/Main.vue'),
+    // },
     {
         path: '*',
-        redirect: {path: '/'},
+        redirect: {
+            name: "login"
+        }
     },
 ];
 
