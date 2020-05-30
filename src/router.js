@@ -16,11 +16,11 @@ const routes = [
         component: () => import('./views/login.vue'),
     },
 
-    // {
-    //     path: '/',
-    //     name: 'main',
-    //     component: () => import('./components/Main.vue'),
-    // },
+    {
+        path: '/users',
+        name: 'users',
+        component: () => import('./components/Main.vue'),
+    },
     // {
     //     path: '/content',
     //     name: 'content',

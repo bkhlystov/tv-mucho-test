@@ -15,14 +15,12 @@ Vue.use(VeeValidate);
 Vue.config.productionTip = false;
 Vue.use(Vuex);
 import createLogger from 'vuex/dist/logger'
-import list from './store/index.js';
-import contentText from './store/contentText.js';
+import users from './store/users.js';
 
-//Регистрация хранилища Vuex
+//Store registration Vuex
 const store = new Vuex.Store({
     modules: {
-        list,
-        contentText
+        users
     },
     plugins: [createLogger()]
 });

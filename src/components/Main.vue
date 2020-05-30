@@ -28,11 +28,11 @@
             <p class="what-we-do-title">{{ 'Some Title' | upperCase }}</p>
 
             <div class="container what-we-do-container-content">
-                <what-we-do-content
-                        v-for="item in listWhatWeDo"
-                        :key="item.id"
-                        :render-item="item"
-                />
+                <!--<what-we-do-content-->
+                        <!--v-for="item in users_list"-->
+                        <!--:key="item.id"-->
+                        <!--:render-item="item"-->
+                <!--/>-->
             </div>
         </div>
     </section>
@@ -48,9 +48,14 @@
             WhatWeDoContent,
         },
         computed: {
-            ...mapState('list', ['listWhatWeDo']),
+            ...mapState('users', ['authenticated', 'users_list'])
         },
-        mixins: [filter],
+        mounted() {
+            if(!this.authenticated) {
+                this.$router.replace({name: "login"})
+            }
+        },
+        mixins: [filter]
     }
 </script>
 <style lang="scss" scoped>

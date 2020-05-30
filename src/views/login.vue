@@ -18,6 +18,7 @@
 </template>
 
 <script>
+    import {mapState, mapMutations} from 'vuex';
     export default {
         name: 'Login',
         data() {
@@ -28,12 +29,26 @@
                 }
             }
         },
+        mounted() {
+            if(this.authenticated) {
+                this.$router.replace({name: "users"})
+            }
+        },
+        computed: {
+            ...mapState('users', ['authenticated'])
+        },
         methods: {
+            ...mapMutations('users', ['setAuthenticationState']),
+            redirectIfAuthenticated() {
+                if(this.authenticated) {
+                    this.$router.replace({name: "users"});
+                }
+            },
             login() {
                 if(this.input.username != "" && this.input.password != "") {
                     if(this.input.username == this.$parent.mockAccount.username && this.input.password == this.$parent.mockAccount.password) {
-                        this.$emit("authenticated", true);
-                        this.$router.replace({ name: "secure" });
+                        this.setAuthenticationState(true);
+                        this.redirectIfAuthenticated();
                     } else {
                         console.log("The username and / or password is incorrect");
                     }

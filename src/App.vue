@@ -1,15 +1,15 @@
 <template>
     <div class="main-wrapper-body">
-        <!--<nav id="nav">-->
-            <!--<router-link v-if="authenticated" to="/login" @click.native="logout()" replace>Logout</router-link>-->
-        <!--</nav>-->
-        <router-view @authenticated="setAuthenticated" />
+        <nav id="nav">
+            <router-link v-if="authenticated" to="/login" @click.native="logout()" replace>Logout</router-link>
+        </nav>
+        <router-view />
     </div>
 </template>
 <script>
 //    import HeaderNavigation from './components/HeaderNavigation.vue';
 //    import FooterBody from './components/FooterBody.vue';
-    import {mapActions} from 'vuex';
+    import {mapState, mapMutations} from 'vuex';
     export default {
         name: 'App',
         components: {
@@ -18,39 +18,37 @@
         },
         data() {
             return {
-                authenticated: false,
                 mockAccount: {
                     username: "root",
                     password: "root"
                 }
             }
         },
-        mounted() {
-            if(!this.authenticated) {
-                this.$router.replace({ name: "login" });
-            }
+        computed: {
+            ...mapState('users', ['authenticated']),
         },
-        methods: {
-//            ...mapActions('list', ['fetchDataList']),
-//            ...mapActions('contentText', ['fetchContentText']),
-
-            setAuthenticated(status) {
-                this.authenticated = status;
-            },
-            logout() {
-                this.authenticated = false;
-            }
-
-        },
-        async created () {
+        created () {
+            this.checkAuthentication();
+            this.redirectIfAuthenticated();
 //            await this.fetchDataList();
 //            await this.fetchContentText();
         },
-        mounted() {
-            if(!this.authenticated) {
-                this.$router.replace({ name: "login" });
+        methods: {
+            ...mapMutations('users', ['setAuthenticationState']),
+            redirectIfAuthenticated() {
+                if(this.authenticated) {
+                    this.$router.replace({name: "users"});
+                }
+            },
+            checkAuthentication() {
+                const auth_state = (localStorage && localStorage.authenticated) ? Boolean(localStorage.authenticated) : false;
+                this.setAuthenticationState(auth_state);
+            },
+            logout() {
+                this.setAuthenticationState(false);
             }
-        },
+
+        }
     }
 </script>
 <style lang="scss">
