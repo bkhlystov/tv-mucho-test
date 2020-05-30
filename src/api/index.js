@@ -3,8 +3,8 @@ import qs from 'qs';
 
 export const urls = {
     users: {
-        list: '//api.github.com/users',
-        user: id => `//api.github.com/users/${id}`
+        list: 'https://api.github.com/users',
+        user: id => `https://api.github.com/users/${id}`
     }
 };
 
@@ -16,7 +16,6 @@ class ApiClient {
 
         return users_list;
     }
-
 
     async request(method, url, data, params) {
         let response;

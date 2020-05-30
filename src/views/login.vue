@@ -1,72 +1,136 @@
 <template>
-    <div>
-        <h1>Login</h1>
-        <input type="text"
-               name="username"
-               v-model="input.username"
-               placeholder="Username"
-        />
-        <input type="password"
-               name="password"
-               v-model="input.password"
-               placeholder="Password"
-        />
-        <button type="button"
-                @click="login()"
-        >Login</button>
-    </div>
+    <el-form
+            :model="form"
+            :rules="rules"
+            ref="form"
+            label-width="120px"
+            class="form-login"
+            status-icon
+            @submit.prevent="validate">
+        <el-form-item label="Email" prop="email">
+            <el-input
+                    id="email"
+                    type="email"
+                    v-model="form.email"
+                    @change="hideErrorEmailMessage"
+            ></el-input>
+            <el-tag v-show="state.error_email" type="danger">The 'Email' field is not valid.</el-tag>
+        </el-form-item>
+
+        <el-form-item label="Password" prop="password">
+            <el-input
+                    id="password"
+                    type="password"
+                    v-model="form.password"
+                    autocomplete="off"
+            ></el-input>
+        </el-form-item>
+
+        <el-tag
+            v-show="show_login_failed"
+            type="danger"
+        >Woops, looks like wrong email or password. Try login again ;)</el-tag>
+
+        <el-form-item>
+            <el-button
+                type="submit"
+                @click="validate"
+            >Login</el-button>
+            <el-button
+                    @click="resetForm('form')"
+            >Reset</el-button>
+        </el-form-item>
+    </el-form>
 </template>
 
 <script>
     import {mapState, mapMutations} from 'vuex';
+    import apiClient from '../api/';
+
+    const mockAccount = {
+        email: "test@i.ua",
+        password: "test"
+    };
+
     export default {
         name: 'Login',
-        data() {
-            return {
-                input: {
-                    username: "",
-                    password: ""
-                }
+        data: () => ({
+            form: {
+                email: "",
+                password: ""
+            },
+            state: {
+                form_is_valid: false,
+                error_email: false
+            },
+            rules: {
+                password: [
+                    { required: true, message: 'Please input password', trigger: 'blur' },
+                    { min: 4, max: 12, message: 'Length should be 4 to 12', trigger: 'blur' }
+                ],
+                email: [{ required: true, message: 'Please input email', trigger: 'blur' }]
             }
-        },
-        mounted() {
+        }),
+        created() {
             if(this.authenticated) {
                 this.$router.replace({name: "users"})
             }
         },
         computed: {
-            ...mapState('users', ['authenticated'])
+            ...mapState('users', ['authenticated']),
+            show_login_failed() {
+                return this.form.email && this.form.password && !this.state.form_is_valid;
+            }
         },
         methods: {
             ...mapMutations('users', ['setAuthenticationState']),
+            validEmail(email) {
+                var re = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()\.,;\s@\"]+\.{0,1})+[^<>()\.,;:\s@\"]{2,})$/;
+                return re.test(email);
+            },
+            showErrorEmailMessage() {
+                this.state.error_email = true;
+            },
+            hideErrorEmailMessage() {
+                this.state.error_email = false;
+            },
+            showErrorFormIsNotValid() {
+                this.state.form_is_valid = false;
+            },
+            hideErrorFormIsNotValid() {
+                this.state.form_is_valid = true;
+            },
+            validate() {
+                console.log('сработал validate');
+                this.$refs.form.validateField('email');
+                this.$refs.form.validateField('password');
+
+                if (this.form.email && this.validEmail(this.form.email)) {
+                    if(this.form.email == mockAccount.email && this.form.password == mockAccount.password) {
+                        this.hideErrorFormIsNotValid();
+                        this.hideErrorEmailMessage();
+                        this.login();
+                    } else {
+                        this.showErrorFormIsNotValid();
+                    }
+                } else {
+                    this.showErrorEmailMessage();
+                }
+            },
             redirectIfAuthenticated() {
                 if(this.authenticated) {
                     this.$router.replace({name: "users"});
                 }
             },
             login() {
-                if(this.input.username != "" && this.input.password != "") {
-                    if(this.input.username == this.$parent.mockAccount.username && this.input.password == this.$parent.mockAccount.password) {
-                        this.setAuthenticationState(true);
-                        this.redirectIfAuthenticated();
-                    } else {
-                        console.log("The username and / or password is incorrect");
-                    }
-                } else {
-                    console.log("A username and password must be present");
-                }
+                this.setAuthenticationState(true);
+                this.redirectIfAuthenticated();
+            },
+            resetForm(formName) {
+                this.$refs[formName].resetFields();
             }
         }
     }
 </script>
 
-<style lang="scss" scoped>
-    /*#login {
-        width: 500px;
-        border: 1px solid #CCCCCC;
-        background-color: #FFFFFF;
-        margin: auto;
-        margin-top: 200px;
-        padding: 20px;
-    }*/
-</style>
+<style lang="scss" scoped></style>

@@ -19,12 +19,13 @@ const routes = [
     {
         path: '/users',
         name: 'users',
-        component: () => import('./components/Main.vue'),
+        component: () => import('./views/list.vue'),
     },
     // {
-    //     path: '/content',
-    //     name: 'content',
-    //     component: () => import('./components/Main.vue'),
+    //     path: '/users/:user_id',
+    //     name: 'user',
+    //     component: () => import('./components/User.vue'),
+    //     props: route => ({user_id: route.params.user_id}),
     // },
     {
         path: '*',

@@ -1,37 +1,21 @@
 <template>
     <div class="main-wrapper-body">
-        <nav id="nav">
-            <router-link v-if="authenticated" to="/login" @click.native="logout()" replace>Logout</router-link>
+        <nav id="nav" v-if="authenticated">
+            <router-link to="/login" @click.native="logout()" replace>Logout</router-link>
         </nav>
         <router-view />
     </div>
 </template>
 <script>
-//    import HeaderNavigation from './components/HeaderNavigation.vue';
-//    import FooterBody from './components/FooterBody.vue';
     import {mapState, mapMutations} from 'vuex';
     export default {
         name: 'App',
-        components: {
-//            HeaderNavigation,
-//            FooterBody,
-        },
-        data() {
-            return {
-                mockAccount: {
-                    username: "root",
-                    password: "root"
-                }
-            }
-        },
         computed: {
             ...mapState('users', ['authenticated']),
         },
         created () {
             this.checkAuthentication();
             this.redirectIfAuthenticated();
-//            await this.fetchDataList();
-//            await this.fetchContentText();
         },
         methods: {
             ...mapMutations('users', ['setAuthenticationState']),
@@ -41,7 +25,7 @@
                 }
             },
             checkAuthentication() {
-                const auth_state = (localStorage && localStorage.authenticated) ? Boolean(localStorage.authenticated) : false;
+                const auth_state = !!(localStorage && localStorage.authenticated && localStorage.authenticated === 'true');
                 this.setAuthenticationState(auth_state);
             },
             logout() {

@@ -1,19 +1,20 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
+import VueLoading from 'vuex-loading'
+import ElementUI from 'element-ui';
+import locale from 'element-ui/lib/locale/lang/en';
+import './element-theme.scss'
 
 import App from './App';
 import router from './router';
 
-import VueLoading from 'vuex-loading'
-Vue.use(VueLoading);
 
-// Add Vee validate
-import VeeValidate from 'vee-validate';
-Vue.use(VeeValidate);
+Vue.use(VueLoading);
 
 //Add Vuex
 Vue.config.productionTip = false;
 Vue.use(Vuex);
+Vue.use(ElementUI, {locale});
 import createLogger from 'vuex/dist/logger'
 import users from './store/users.js';
 

@@ -38,12 +38,12 @@
     </section>
 </template>
 <script>
-    import WhatWeDoContent from './WhatWeDoContent.vue';
+    import WhatWeDoContent from '../components/WhatWeDoContent.vue';
     import {mapState} from 'vuex';
-    import {filter} from './mixins/filter.js';
+    import {filter} from '../components/mixins/filter.js';
 
     export default {
-        name: 'Main',
+        name: 'UsersList',
         components: {
             WhatWeDoContent,
         },
@@ -59,7 +59,7 @@
     }
 </script>
 <style lang="scss" scoped>
-    @import '../styles/common.scss';
+    /*@import '../styles/common.scss';
 
     .main-container {
         @include constantaMaxMinWidth;
@@ -189,5 +189,5 @@
                 }
             }
         }
-    }
+    }*/
 </style>
