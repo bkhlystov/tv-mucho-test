@@ -13,7 +13,7 @@
                         <span class="bold">{{user.name}}</span>
                     </p>
                     <img :src="user.avatar_url" :alt="user.name" class="image">
-                    <div style="padding: 14px;">
+                    <div class="bottom-container">
                         <div class="bottom clearfix">
                             <p v-if="user.email">
                                 <span class="bold">Email:</span>
@@ -125,10 +125,14 @@
                 font-weight: bold;
             }
 
-            .bottom {
-                margin-top: 13px;
-                line-height: 12px;
+            .bottom-container {
+                padding: 14px;
+                .bottom {
+                    margin-top: 13px;
+                    line-height: 12px;
+                }
             }
+
 
             .image {
                 width: 100%;

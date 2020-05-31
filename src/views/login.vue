@@ -6,6 +6,7 @@
                 ref="form"
                 label-width="120px"
                 class="form-login"
+                maxlength="30"
                 status-icon
                 @submit.prevent="validate">
             <el-form-item label="Email" prop="email">
@@ -23,6 +24,7 @@
                         id="password"
                         type="password"
                         v-model="form.password"
+                        maxlength="30"
                         autocomplete="off"
                 ></el-input>
             </el-form-item>
