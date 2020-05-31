@@ -1,6 +1,6 @@
 <template>
     <div class="main-wrapper-body">
-        <nav id="nav" v-if="authenticated">
+        <nav class="nav" v-if="authenticated">
             <router-link to="/login" @click.native="logout()" replace>
                 <el-button>Logout</el-button>
             </router-link>
@@ -37,4 +37,9 @@
         }
     }
 </script>
-<style lang="scss"></style>
+<style lang="scss">
+    .nav {
+        display: flex;
+        justify-content: flex-end;
+    }
+</style>

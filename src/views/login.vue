@@ -1,41 +1,43 @@
 <template>
-    <el-form
-            :model="form"
-            :rules="rules"
-            ref="form"
-            label-width="120px"
-            class="form-login"
-            status-icon
-            @submit.prevent="validate">
-        <el-form-item label="Email" prop="email">
-            <el-input
-                    id="email"
-                    type="email"
-                    v-model="form.email"
-                    @change="hideErrorEmailMessage"
-            ></el-input>
-            <el-tag v-show="state.error_email" type="danger">The 'Email' field is not valid.</el-tag>
-        </el-form-item>
+    <div class="login">
+        <el-form
+                :model="form"
+                :rules="rules"
+                ref="form"
+                label-width="120px"
+                class="form-login"
+                status-icon
+                @submit.prevent="validate">
+            <el-form-item label="Email" prop="email">
+                <el-input
+                        id="email"
+                        type="email"
+                        v-model="form.email"
+                        @change="hideErrorEmailMessage"
+                ></el-input>
+                <el-tag v-show="state.error_email" type="danger">The 'Email' field is not valid.</el-tag>
+            </el-form-item>
 
-        <el-form-item label="Password" prop="password">
-            <el-input
-                    id="password"
-                    type="password"
-                    v-model="form.password"
-                    autocomplete="off"
-            ></el-input>
-        </el-form-item>
+            <el-form-item label="Password" prop="password">
+                <el-input
+                        id="password"
+                        type="password"
+                        v-model="form.password"
+                        autocomplete="off"
+                ></el-input>
+            </el-form-item>
 
-        <el-form-item>
-            <el-button
-                type="submit"
-                @click="validate"
-            >Login</el-button>
-            <el-button
-                    @click="resetForm('form')"
-            >Reset</el-button>
-        </el-form-item>
-    </el-form>
+            <el-form-item class="buttons">
+                <el-button
+                        type="submit"
+                        @click="validate"
+                >Login</el-button>
+                <el-button
+                        @click="resetForm('form')"
+                >Reset</el-button>
+            </el-form-item>
+        </el-form>
+    </div>
 </template>
 
 <script>
@@ -65,6 +67,9 @@
                 email: [{ required: true, message: 'Please input email', trigger: 'blur' }]
             }
         }),
+        computed: {
+            ...mapState('users', ['authenticated']),
+        },
         created() {
             if(this.authenticated) {
                 this.$router.replace({name: "users"});
@@ -75,9 +80,6 @@
                     duration: 5000
                 });
             }
-        },
-        computed: {
-            ...mapState('users', ['authenticated']),
         },
         methods: {
             ...mapMutations('users', ['setAuthenticationState']),
@@ -92,7 +94,6 @@
                 this.state.error_email = false;
             },
             validate() {
-                console.log('сработал validate');
                 this.$refs.form.validateField('email');
                 this.$refs.form.validateField('password');
 
@@ -128,4 +129,15 @@
     }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+    .login {
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        .form-login {
+            width: 30%;
+        }
+    }
+</style>

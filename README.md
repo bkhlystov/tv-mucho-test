@@ -14,6 +14,10 @@ Requirements:
 - Use Axios in order to communicate with API
 - login page has to contain 2 fields: email and password. Email field has to have format validation enabled, password can be anything (do not check)
 
+##Login Page test Mocks
+email: test@i.ua
+
+password: test
 
 ## Build Setup
 
