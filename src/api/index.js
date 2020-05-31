@@ -17,6 +17,13 @@ class ApiClient {
         return users_list;
     }
 
+    async getUser(user_id) {
+
+        const user = await this.request( 'get', urls.users.user(user_id));
+
+        return user;
+    }
+
     async request(method, url, data, params) {
         let response;
 

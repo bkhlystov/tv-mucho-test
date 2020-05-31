@@ -1,7 +1,9 @@
 <template>
     <div class="main-wrapper-body">
         <nav id="nav" v-if="authenticated">
-            <router-link to="/login" @click.native="logout()" replace>Logout</router-link>
+            <router-link to="/login" @click.native="logout()" replace>
+                <el-button>Logout</el-button>
+            </router-link>
         </nav>
         <router-view />
     </div>
@@ -20,7 +22,7 @@
         methods: {
             ...mapMutations('users', ['setAuthenticationState']),
             redirectIfAuthenticated() {
-                if(this.authenticated) {
+                if(this.authenticated && this.$route.path === '/login') {
                     this.$router.replace({name: "users"});
                 }
             },
@@ -35,26 +37,4 @@
         }
     }
 </script>
-<style lang="scss">
-    /*@font-face {
-        font-family: 'Roboto-Regular';
-        src: url(./fonts/Roboto-Regular.ttf);
-    }
-
-    @font-face {
-        font-family: 'Knewave';
-        src: url(./fonts/knewave.ttf);
-    }
-    @import './styles/common.scss';
-
-    .main-wrapper-body {
-        background-image: url('./assets/main-background.png');
-
-        header {
-            position: absolute;
-            z-index: 999;
-            width: 100%;
-            background-color: $custom-light-green;
-        }
-    }*/
-</style>
+<style lang="scss"></style>

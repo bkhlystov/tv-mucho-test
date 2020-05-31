@@ -6,7 +6,7 @@ const state = {
 };
 
 const actions = {
-    async fetchDataList ({ commit }) {
+    async fetchUsersList ({ commit }) {
         try {
             commit('setUsersList', await apiClient.getUsersList());
         } catch (err) {

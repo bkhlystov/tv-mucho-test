@@ -21,12 +21,12 @@ const routes = [
         name: 'users',
         component: () => import('./views/list.vue'),
     },
-    // {
-    //     path: '/users/:user_id',
-    //     name: 'user',
-    //     component: () => import('./components/User.vue'),
-    //     props: route => ({user_id: route.params.user_id}),
-    // },
+    {
+        path: '/users/:user_id',
+        name: 'user',
+        component: () => import('./views/user.vue'),
+        props: route => ({user_id: route.params.user_id}),
+    },
     {
         path: '*',
         redirect: {

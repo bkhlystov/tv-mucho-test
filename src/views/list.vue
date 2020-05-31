@@ -1,56 +1,34 @@
 <template>
-    <section class="main-container">
-        <div class="train-container">
-            <div class="train-container-content">
-                <p class="train-title">{{ 'Lorem ipsum dolor sit amet!' | upperCase }}</p>
-                <p class="train-content">
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsum, laudantium,
-                    nobis. Aperiam aspernatur, assumenda consequatur dolorum, eligendi eos ex
-                    itaque nemo nostrum officia porro quia quo rem repudiandae temporibus?
-                    Reprehenderit!
-                </p>
-                <div class="button-wrapper">
-                    <button class="btn btn-outline-secondary"
-                            type="button"
-                    >
-                        Download
-                    </button>
-                    <button class="btn btn-outline-secondary"
-                            type="button"
-                    >
-                        Meer informatie
-                    </button>
-                </div>
-            </div>
-            <div class="train-transparent-shadow"></div>
-        </div>
-        <div class="what-we-do-container">
-            <p class="what-we-do-title">{{ 'Some Title' | upperCase }}</p>
-
-            <div class="container what-we-do-container-content">
-                <!--<what-we-do-content-->
-                        <!--v-for="item in users_list"-->
-                        <!--:key="item.id"-->
-                        <!--:render-item="item"-->
-                <!--/>-->
-            </div>
-        </div>
+    <section class="users-list">
+        <ul class="nav nav-tabs">
+            <router-link v-for="user in users_list" :key="user.id"
+                         :to="`/users/${user.id}`"
+                         tag="li"
+                         role="presentation"
+            >
+                <a>
+                    <figure>
+                        <img :src="user.avatar_url" alt="Avatar" />
+                        <figcaption class="under-img">{{user.url}}</figcaption>
+                    </figure>
+                </a>
+            </router-link>
+        </ul>
     </section>
 </template>
 <script>
-    import WhatWeDoContent from '../components/WhatWeDoContent.vue';
-    import {mapState} from 'vuex';
-    import {filter} from '../components/mixins/filter.js';
+    import {mapState, mapActions} from 'vuex';
+    import apiClient from '../api/';
 
     export default {
         name: 'UsersList',
-        components: {
-            WhatWeDoContent,
-        },
+
         computed: {
             ...mapState('users', ['authenticated', 'users_list'])
         },
-        mounted() {
+        async created() {
+            await this.fetchUsersList();
+
             if(!this.authenticated) {
                 this.$router.replace({name: "login"});
                 this.$message({
@@ -61,139 +39,9 @@
                 });
             }
         },
-        mixins: [filter]
+        methods: {
+            ...mapActions('users', ['fetchUsersList'])
+        }
     }
 </script>
-<style lang="scss" scoped>
-    @import '../styles/common.scss';
-
-    .main-container {
-        @include constantaMaxMinWidth;
-        margin: 0px auto;
-
-        .train-container {
-            @include fullCenter;
-            width: 100%;
-            height: 100vh;
-            background: url('../assets/slide.jpg') no-repeat;
-            -webkit-background-size: cover;
-            background-size: cover;
-            position: relative;
-
-            .train-container-content {
-                width: 45%;
-                position: relative;
-                z-index: 2;
-                max-height: 459px;
-                p {
-                    text-align: center;
-                }
-                .train-title {
-                    @include fontKnewave;
-                    color: $custom-yellow;
-                    font-size: 64px;
-                }
-                .train-content {
-                    @include fontRoboto;
-                    color: $white;
-                    font-size: 26px;
-                }
-                .button-wrapper {
-                    display: flex;
-                    justify-content: center;
-                    button {
-                        margin-right: 10px;
-                        color: $white;
-                        border-color: $white;
-                        font-size: 18px;
-
-                        &:hover {
-                            color: $black;
-                            border-color: transparent;
-                            background-color: $custom-yellow;
-                        }
-                    }
-                }
-            }
-
-            .train-transparent-shadow {
-                width: 100%;
-                height: 100%;
-                background-color: $black;
-                opacity: 0.3;
-                position: absolute;
-            }
-        }
-
-
-        .what-we-do-container {
-            display: flex;
-            justify-content: center;
-            flex-direction: column;
-            background-color: $custom-dark-blue;
-            -webkit-box-shadow: inset 0px 24px 39px 0px rgba(0,0,0,0.22);
-            -moz-box-shadow: inset 0px 24px 39px 0px rgba(0,0,0,0.22);
-            box-shadow: inset 0px 24px 39px 0px rgba(0,0,0,0.22);
-
-            .what-we-do-title {
-                @include fontKnewave;
-                font-size: 64px;
-                color: $custom-light-green;
-                text-align: center;
-                padding: 45px 0 10px 0;
-            }
-
-            .what-we-do-container-content {
-                width: 75%;
-                text-align: center;
-            }
-        }
-
-        @media (min-width: 768px) and  (max-width: 1280px) {
-            .train-container {
-                .train-container-content {
-
-                    .train-title {
-                        font-size: 35px;
-                    }
-                    .train-content {
-                        font-size: 20px;
-                    }
-                }
-            }
-
-            .what-we-do-container {
-                .what-we-do-title {
-                    font-size: 35px;
-                }
-            }
-        }
-
-        @media (min-width: 320px) and  (max-width: 767px) {
-            .train-container {
-                .train-container-content {
-                    margin-top: 180px;
-
-                    .train-title {
-                        font-size: 18px;
-                    }
-                    .train-content {
-                        font-size: 12px;
-                    }
-
-                    .button-wrapper button {
-                        font-size: 10px;
-                    }
-                }
-            }
-
-            .what-we-do-container {
-                .what-we-do-title {
-                    font-size: 18px;
-                    padding-top: 20px;
-                    padding-bottom: 0;
-                }
-            }
-        }
-    }
-</style>
+<style lang="scss" scoped></style>
