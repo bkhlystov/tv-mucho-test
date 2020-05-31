@@ -38,8 +38,12 @@
     }
 </script>
 <style lang="scss">
-    .nav {
-        display: flex;
-        justify-content: flex-end;
+    .main-wrapper-body {
+        min-width: 480px;
+
+        .nav {
+            display: flex;
+            justify-content: flex-end;
+        }
     }
 </style>

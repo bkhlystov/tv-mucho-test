@@ -140,6 +140,12 @@
 
         .form-login {
             width: 30%;
+            min-width: 400px;
+        }
+        @media (min-width: 320px) and  (max-width: 1060px){
+            .form-login {
+                width: 50%;
+            }
         }
     }
 </style>

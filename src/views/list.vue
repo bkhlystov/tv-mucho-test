@@ -67,6 +67,10 @@
     .users-list {
         .count-users-container {
             margin-bottom: 20px;
+
+            .count-users {
+                min-width: 320px;
+            }
         }
 
         .user {

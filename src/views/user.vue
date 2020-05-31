@@ -113,6 +113,7 @@
         }
 
         .card {
+            min-width: 480px;
             .name {
                 text-align: center;
                 font-size: 32px;
