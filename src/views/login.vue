@@ -26,11 +26,6 @@
             ></el-input>
         </el-form-item>
 
-        <el-tag
-            v-show="show_login_failed"
-            type="danger"
-        >Woops, looks like wrong email or password. Try login again ;)</el-tag>
-
         <el-form-item>
             <el-button
                 type="submit"
@@ -60,7 +55,6 @@
                 password: ""
             },
             state: {
-                form_is_valid: false,
                 error_email: false
             },
             rules: {
@@ -73,14 +67,17 @@
         }),
         created() {
             if(this.authenticated) {
-                this.$router.replace({name: "users"})
+                this.$router.replace({name: "users"});
+                this.$message({
+                    showClose: true,
+                    message: 'User authenticated, redirect to users list.',
+                    type: 'success',
+                    duration: 5000
+                });
             }
         },
         computed: {
             ...mapState('users', ['authenticated']),
-            show_login_failed() {
-                return this.form.email && this.form.password && !this.state.form_is_valid;
-            }
         },
         methods: {
             ...mapMutations('users', ['setAuthenticationState']),
@@ -94,12 +91,6 @@
             hideErrorEmailMessage() {
                 this.state.error_email = false;
             },
-            showErrorFormIsNotValid() {
-                this.state.form_is_valid = false;
-            },
-            hideErrorFormIsNotValid() {
-                this.state.form_is_valid = true;
-            },
             validate() {
                 console.log('сработал validate');
                 this.$refs.form.validateField('email');
@@ -107,11 +98,15 @@
 
                 if (this.form.email && this.validEmail(this.form.email)) {
                     if(this.form.email == mockAccount.email && this.form.password == mockAccount.password) {
-                        this.hideErrorFormIsNotValid();
                         this.hideErrorEmailMessage();
                         this.login();
                     } else {
-                        this.showErrorFormIsNotValid();
+                        this.$message({
+                            showClose: true,
+                            message: 'Oops, looks like wrong email or password. Try login again ;)',
+                            type: 'error',
+                            duration: 5000
+                        });
                     }
                 } else {
                     this.showErrorEmailMessage();

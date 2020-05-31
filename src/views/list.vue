@@ -52,14 +52,20 @@
         },
         mounted() {
             if(!this.authenticated) {
-                this.$router.replace({name: "login"})
+                this.$router.replace({name: "login"});
+                this.$message({
+                    showClose: true,
+                    message: 'User is not authenticated, redirect to login page.',
+                    type: 'error',
+                    duration: 5000
+                });
             }
         },
         mixins: [filter]
     }
 </script>
 <style lang="scss" scoped>
-    /*@import '../styles/common.scss';
+    @import '../styles/common.scss';
 
     .main-container {
         @include constantaMaxMinWidth;
@@ -189,5 +195,5 @@
                 }
             }
         }
-    }*/
+    }
 </style>
