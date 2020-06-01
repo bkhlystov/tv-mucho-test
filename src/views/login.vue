@@ -6,7 +6,6 @@
                 ref="form"
                 label-width="120px"
                 class="form-login"
-                maxlength="30"
                 status-icon
                 @submit.prevent="validate">
             <el-form-item label="Email" prop="email">
@@ -14,6 +13,7 @@
                         id="email"
                         type="email"
                         v-model="form.email"
+                        maxlength="50"
                         @change="hideErrorEmailMessage"
                 ></el-input>
                 <el-tag v-show="state.error_email" type="danger">The 'Email' field is not valid.</el-tag>

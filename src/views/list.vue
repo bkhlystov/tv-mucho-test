@@ -5,13 +5,12 @@
         <el-row class="count-users-container">
             <el-col :span="6">
                 <div class="sub-title">Choose cont of displayed users</div>
-                <el-input
+                <el-input-number
                         v-model="count_users"
-                        placeholder="Find user"
-                        type="number"
+                        :min="1"
+                        :max="999"
                         class="inline-input count-users"
-                        maxlength="3"
-                ></el-input>
+                ></el-input-number>
             </el-col>
         </el-row>
         <el-row>
